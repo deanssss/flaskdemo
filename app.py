@@ -1,7 +1,7 @@
 from flask import Flask
 
 import config
-from extension import db, login_manager, qin
+from extension import db, login_manager
 from module.auth import auth
 from module.test import test
 from module.todo import todo
