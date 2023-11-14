@@ -4,6 +4,8 @@ from flask import Blueprint, request
 from app import db
 from model.task import Task
 from util.json_util import serialize, make_json_rsp, make_simple_rsp
+from util.date_util import now_datetime_str
+import datetime
 
 todo = Blueprint("todo", __name__, url_prefix="/todo")
 
@@ -38,4 +40,14 @@ def delete_task():
     db.session.delete(task)
     db.session.commit()
     return make_simple_rsp(0, "删除成功")
+
+
+@todo.route('/completeTask', methods=['POST'])
+def complete_task():
+    data = request.get_json()
+    print("id: " + str(data['id']))
+    task = Task.query.get(int(data['id']))
+    task.complete()
+    db.session.commit()
+    return make_simple_rsp(0, "操作成功")
 
